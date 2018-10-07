@@ -1,14 +1,14 @@
 package org.fran.wiki.web.service;
 
 import org.fran.wiki.web.config.ResourceConfiguration;
+import org.fran.wiki.web.vo.ResourceFile;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ResourceService {
@@ -31,17 +31,90 @@ public class ResourceService {
     }
 
 
-    public String getContentType(String fileName){
+    private String getSuffix(String fileName){
         if(fileName.indexOf(".")!= -1) {
             String suffix = fileName.substring(fileName.lastIndexOf("."));
-            if(contentType.containsKey(suffix))
-                return contentType.get(suffix);
-            else
-                return unknownContentType;
+            return suffix;
         }else
+            return "";
+    }
+
+    //取最近的30天资源文件夹
+    public List<String> latest30Folder(){
+        File f = new File(resourceConfiguration.getResourcePath());
+        List<String> l = new ArrayList<>();
+        if(f.exists() && f.isDirectory()){
+            for(File dateFolder : f.listFiles()){
+                if(dateFolder.isDirectory()){
+                    l.add(dateFolder.getName());
+                }
+            }
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Collections.sort(l, (str1, str2) -> {
+                try {
+                    Date d1 = format.parse(str1);
+                    Date d2 = format.parse(str2);
+                    return d1.compareTo(d2) * -1;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return -1;
+            });
+            if(l.size()>30)
+                return l.subList(0,30);
+            else
+                return l;
+        }else
+            return l;
+
+
+    }
+
+    //获取资源列表
+    public List<ResourceFile> getResourcesList(String date){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if(date == null || "".equals(date))
+            date = format.format(new Date());
+
+        File f = new File(resourceConfiguration.getResourcePath() + File.separator + date);
+        List<ResourceFile> l = new ArrayList<>();
+        if(date == null || "".equals(date))
+            return l;
+
+        if(f.exists() && f.isDirectory()){
+            List<File> files = new ArrayList<>();
+
+            for(File resource : f.listFiles()){
+                if(!resource.isDirectory()){
+//                    System.out.println(resource.getName() + new Date(resource.lastModified()));
+                    files.add(resource);
+
+                    l.add(new ResourceFile(resource.lastModified(), resource.getName(), "/res/r/" + date + "/" + resource.getName()));
+                }
+            }
+
+            Collections.sort(l, (f1, f2) ->{
+                long diff = f1.getLastModify() - f2.getLastModify();
+                return diff == 0
+                        ? 0 : diff > 0 ? -1 : 1;
+                });
+
+            return l;
+        }else
+            return l;
+    }
+
+    //根据文件类型获取contentType
+    public String getContentType(String fileName){
+        String suffix = getSuffix(fileName);
+        if(contentType.containsKey(suffix))
+            return contentType.get(suffix);
+        else
             return unknownContentType;
     }
 
+    //写入到输出流中（图片下载）
     public void writeToStream(String fileName, OutputStream os){
         File file = new File(resourceConfiguration.getResourcePath() + fileName.replace("/", File.separator));
         if(file.exists()){
@@ -78,8 +151,8 @@ public class ResourceService {
     }
 
 
-
-    public void uploadToResource(String fileName, InputStream inputStream){
+    //写入到本地文件（资源上传）
+    public void uploadToResource(String newFileName, String originalFilename, InputStream inputStream){
         FileOutputStream o = null;
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -89,7 +162,12 @@ public class ResourceService {
             if(!dateFolder.exists())
                 dateFolder.mkdir();
 
+            String fileName = newFileName == null? originalFilename : (newFileName + getSuffix(originalFilename));
+
             File f = new File(dateFolder.getPath() + File.separator + fileName);
+            if(f.exists())
+                throw new IOException("file exists, rename");
+
             o = new FileOutputStream(f);
             byte[] b = new byte[1024];
             while(inputStream.read(b)!= -1){

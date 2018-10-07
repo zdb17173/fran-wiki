@@ -2,6 +2,7 @@ package org.fran.wiki.web.controller;
 
 import org.fran.wiki.web.service.ResourceService;
 import org.fran.wiki.web.vo.JsonResult;
+import org.fran.wiki.web.vo.ResourceFile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +12,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.List;
 
-@Controller
+
+@RestController
 @RequestMapping("/res")
 public class ResourceController {
 
@@ -30,7 +33,7 @@ public class ResourceController {
         JsonResult res = new JsonResult();
 
         try {
-            resourceService.uploadToResource(name == null? uploadFile.getOriginalFilename() : name, uploadFile.getInputStream());
+            resourceService.uploadToResource(name ,uploadFile.getOriginalFilename() ,uploadFile.getInputStream());
             res.setData("success");
             res.setDescription("success");
             res.setStatus(200);
@@ -61,5 +64,32 @@ public class ResourceController {
         return null;
     }
 
+    @GetMapping(value = "/latest30Folder", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.ALL_VALUE)
+    public JsonResult<List<String>> latest30Folder(){
+        JsonResult<List<String>> res = new JsonResult<>();
+        try{
+            res.setData(resourceService.latest30Folder());
+            res.setStatus(200);
+        }catch (Exception e){
+            res.setStatus(500);
+            res.setDescription(e.getMessage());
+        }
+        return res;
+    }
+
+    @GetMapping(value = "/getResources", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.ALL_VALUE)
+    public JsonResult<List<ResourceFile>> getResourcesList(
+            @RequestParam(required = false) String date
+    ){
+        JsonResult<List<ResourceFile>> res = new JsonResult<>();
+        try{
+            res.setData(resourceService.getResourcesList(date));
+            res.setStatus(200);
+        }catch (Exception e){
+            res.setStatus(500);
+            res.setDescription(e.getMessage());
+        }
+        return res;
+    }
 
 }

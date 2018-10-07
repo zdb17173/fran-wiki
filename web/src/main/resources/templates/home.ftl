@@ -49,19 +49,16 @@
     <div class="navbar navbar-dark bg-dark box-shadow" style="height: 30px">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">upload</a>
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#fileUploadModal">upload</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" >add</a>
+                <a class="nav-link" href="#" data-toggle="modal" onclick="javascript:resAddToEditor()">add</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="javascript:collapseAll()">collapseAll</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="javascript:expandAll()">expandAll</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
             </li>
         </ul>
     </div>
@@ -83,8 +80,8 @@
     <span id="echoActive1" />
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- file upload modal -->
+<div class="modal fade" id="fileUploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -97,11 +94,6 @@
                 <div class="card">
                     <img id="previewImgUpload" class="card-img-top" alt="Card image cap">
                     <input type="text" id="fileName" class="form-control" placeholder="file name">
-                    <#--<div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>-->
                 </div>
             </div>
             <form id="infoLogoForm" enctype='multipart/form-data'>
@@ -114,6 +106,62 @@
         </div>
     </div>
 </div>
+
+
+<!-- add resource modal -->
+<div class="modal fade" id="resAddToEditorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">select resource</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="resToEditBody" class="modal-body">
+
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <#--<form id="infoLogoForm" enctype='multipart/form-data'>
+                <div class="modal-footer">
+                    <input type="file" class="btn btn-primary" id="uploadFile" accept="image/*"></input>
+                    <button type="button" class="btn btn-primary" onclick="upload()">upload</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>-->
+        </div>
+    </div>
+</div>
+
 
 </body>
 
