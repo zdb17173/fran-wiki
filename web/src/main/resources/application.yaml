@@ -2,6 +2,7 @@
 res:
   markdownPath: "C:\\dev\\markdown\\doc"
   resourcePath: "C:\\dev\\markdown\\resources"
+  tempPath: "C:\\dev\\markdown\\temp"
 
 server:
   port: 8080

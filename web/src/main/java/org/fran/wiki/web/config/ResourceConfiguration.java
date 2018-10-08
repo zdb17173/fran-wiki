@@ -10,6 +10,7 @@ import java.io.File;
 public class ResourceConfiguration {
     String markdownPath;
     String resourcePath;
+    String tempPath;
 
     public String getMarkdownPath() {
         return markdownPath;
@@ -25,5 +26,14 @@ public class ResourceConfiguration {
 
     public void setResourcePath(String resourcePath) {
         this.resourcePath = resourcePath.endsWith(File.separator) ? resourcePath.substring(0, resourcePath.lastIndexOf(File.separator)) : resourcePath;
+    }
+
+    public String getTempPath() {
+        return tempPath;
+    }
+
+    public void setTempPath(String tempPath) {
+        this.tempPath = tempPath.endsWith(File.separator) ? tempPath.substring(0, tempPath.lastIndexOf(File.separator)) : tempPath;
+
     }
 }

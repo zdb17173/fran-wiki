@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class MdFolderService {
@@ -80,6 +82,25 @@ public class MdFolderService {
             }
         }else
             return "# file error!";
+    }
+
+    public void delete(String path, boolean isFolder){
+        File f = new File(path + (isFolder ? "" : ".md") );
+        if(!f.exists())
+            return;
+        else{
+            String filePath = path.substring(path.lastIndexOf(File.separator));
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String date = format.format(new Date());
+
+            File tempDate = new File(resourceConfiguration.getTempPath() + File.separator + date);
+            if(!tempDate.exists())
+                tempDate.mkdir();
+
+            File temp = new File(resourceConfiguration.getTempPath() + File.separator + date + filePath + "--" +System.currentTimeMillis());
+            f.renameTo(temp);
+        }
     }
 
     private void buildTree(File file, Tree parent){

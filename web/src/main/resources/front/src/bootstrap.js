@@ -17,8 +17,20 @@ $(function () {
 
     $('#fileName').popover({
         content: "上传文件的文件名，不填则使用文件本身的名称",
-        trigger: "focus"
+        trigger: "hover"
     });
+
+    /*$('#nav-fileupload').popover({
+        content: "上传图片，用于后续添加在markdown编辑器中",
+        trigger: "hover",
+        placement: "bottom"
+    });
+
+    $('#nav-addToForm').popover({
+        content: "在编辑器光标处添加上传的图片",
+        trigger: "hover",
+        placement: "bottom"
+    });*/
 });
 
 //图片上传组件获取图片url
@@ -37,7 +49,7 @@ function getObjectURL(file) {
 }
 
 
-window.upload = function upload() {
+window.upload = function(appendToEditor) {
     var fileName = $("#fileName").val();
     var data = new FormData();
     var files = $('#uploadFile').prop('files');
@@ -57,6 +69,11 @@ window.upload = function upload() {
 
             if(data.status == 200){
                 $('#fileUploadModal').modal('hide');
+            }
+
+            if(appendToEditor){
+                var path = data.data;
+                addSelectedToEditor(path);
             }
 
             /*if (data.code == 1) {

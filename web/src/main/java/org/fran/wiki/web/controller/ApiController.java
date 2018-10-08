@@ -56,11 +56,13 @@ public class ApiController {
     @PostMapping(value = "/file", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public JsonResult<String> file(@RequestBody File file){
         JsonResult<String> res = new JsonResult<>();
-        System.out.println(file);
+//        System.out.println(file);
 
         if(file.isCreate()){
             //create
             res.setData(mdFolderService.create(file.getPath(), file.isFolder()));
+        }else if(file.isDelete()){
+            mdFolderService.delete(file.getPath(), file.isFolder());
         }else{
             //update
             String newPath = file.getPath()

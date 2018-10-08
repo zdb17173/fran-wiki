@@ -33,8 +33,8 @@ public class ResourceController {
         JsonResult res = new JsonResult();
 
         try {
-            resourceService.uploadToResource(name ,uploadFile.getOriginalFilename() ,uploadFile.getInputStream());
-            res.setData("success");
+            String path = resourceService.uploadToResource(name ,uploadFile.getOriginalFilename() ,uploadFile.getInputStream());
+            res.setData(path);
             res.setDescription("success");
             res.setStatus(200);
         } catch (IOException e) {

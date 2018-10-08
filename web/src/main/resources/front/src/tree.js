@@ -133,11 +133,11 @@ $(function(){
     $("#tree").contextmenu({
         delegate: "span.fancytree-node",
         menu: [
-            {title: "Delete", cmd: "delete", uiIcon: "ui-icon-trash" },
+            {title: "delete", cmd: "delete", uiIcon: "ui-icon-trash" },
             {title: "----"},
-            {title: "New folder", cmd: "addFolder", uiIcon: "ui-icon-arrowreturn-1-e" },
-            {title: "New child", cmd: "addChild", uiIcon: "ui-icon-arrowreturn-1-e" },
-            {title: "New Node", cmd: "addRootNode", uiIcon: "ui-icon-arrowreturn-1-e" }
+            {title: "new folder", cmd: "addFolder", uiIcon: "ui-icon-arrowreturn-1-e" },
+            {title: "new markdown", cmd: "addChild", uiIcon: "ui-icon-arrowreturn-1-e" },
+            {title: "new folder(root)", cmd: "addRootNode", uiIcon: "ui-icon-arrowreturn-1-e" }
         ],
         beforeOpen: function(event, ui) {
             var node = $.ui.fancytree.getNode(ui.target);
@@ -168,7 +168,8 @@ function deleteNode(){
         alert("Please activate a parent node.");
         return;
     }
-    node.remove();
+    var key = node.key;
+    fileDelete(key, node);
 }
 
 //当前激活节点下添加child
@@ -267,7 +268,27 @@ function showMarkdown(){
     }
 }
 
-//文件增删改
+//文件删除
+function fileDelete(key, node){
+    var file = {};
+    file.delete = true;
+    file.path = key;
+    file.folder = node.folder;
+
+    $.ajax({
+        type: "POST",
+        url: "/api/file",
+        data: JSON.stringify(file),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            if(data.status == 200)
+                node.remove();
+        }
+    });
+}
+
+//文件增改
 function fileOperate(create, folder, name, path, newName){
     var file = {};
 
@@ -285,7 +306,6 @@ function fileOperate(create, folder, name, path, newName){
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            console.log(data)
         }
     });
 }

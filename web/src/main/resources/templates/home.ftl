@@ -40,6 +40,76 @@
             max-width: 100%;
         }
 
+        /* table css */
+        #content table {
+            *border-collapse: collapse; /* IE7 and lower */
+            border-spacing: 0;
+            width: 100%;
+        }
+        #content table {
+            border: solid #ccc 1px;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 6px;
+            /*-webkit-box-shadow: 0 1px 1px #ccc;
+            -moz-box-shadow: 0 1px 1px #ccc;
+            box-shadow: 0 1px 1px #ccc;   */
+        }
+        #content table tr:hover {
+            background: #fbf8e9;
+            -o-transition: all 0.1s ease-in-out;
+            -webkit-transition: all 0.1s ease-in-out;
+            -moz-transition: all 0.1s ease-in-out;
+            -ms-transition: all 0.1s ease-in-out;
+            transition: all 0.1s ease-in-out;
+        }
+        #content table td, .table th {
+            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        #content table th {
+            color: #fff;
+            background-color: #212529;
+            border-color: #32383e;
+            border-top: none;
+            text-shadow: 0 1px 0 rgba(255,255,255,.5);
+            padding: 5px;
+        }
+
+        #content table td:first-child, table th:first-child {
+            border-left: none;
+        }
+
+        #content table th:first-child {
+            -moz-border-radius: 6px 0 0 0;
+            -webkit-border-radius: 6px 0 0 0;
+            border-radius: 6px 0 0 0;
+        }
+        #content table th:last-child {
+            -moz-border-radius: 0 6px 0 0;
+            -webkit-border-radius: 0 6px 0 0;
+            border-radius: 0 6px 0 0;
+        }
+        #content table th:only-child{
+            -moz-border-radius: 6px 6px 0 0;
+            -webkit-border-radius: 6px 6px 0 0;
+            border-radius: 6px 6px 0 0;
+        }
+        #content table tr:last-child td:first-child {
+            -moz-border-radius: 0 0 0 6px;
+            -webkit-border-radius: 0 0 0 6px;
+            border-radius: 0 0 0 6px;
+        }
+        #content table tr:last-child td:last-child {
+            -moz-border-radius: 0 0 6px 0;
+            -webkit-border-radius: 0 0 6px 0;
+            border-radius: 0 0 6px 0;
+        }
+
+
     </style>
 </head>
 
@@ -49,10 +119,10 @@
     <div class="navbar navbar-dark bg-dark box-shadow" style="height: 30px">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="modal" data-target="#fileUploadModal">upload</a>
+                <a id="nav-fileupload" class="nav-link" href="#" data-toggle="modal" data-target="#fileUploadModal">upload</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="modal" onclick="javascript:resAddToEditor()">add</a>
+                <a id="nav-addToForm" class="nav-link" href="#" data-toggle="modal" onclick="javascript:resAddToEditor()">add</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="javascript:collapseAll()">collapseAll</a>
@@ -82,7 +152,7 @@
 
 <!-- file upload modal -->
 <div class="modal fade" id="fileUploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">upload</h5>
@@ -92,7 +162,7 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <img id="previewImgUpload" class="card-img-top" alt="Card image cap">
+                    <img id="previewImgUpload" class="card-img-top" alt="Card image cap" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_166517e10a1%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_166517e10a1%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2299.125%22%20y%3D%2296.3%22%3EImage%20cap%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E">
                     <input type="text" id="fileName" class="form-control" placeholder="file name">
                 </div>
             </div>
@@ -100,6 +170,7 @@
                 <div class="modal-footer">
                     <input type="file" class="btn btn-primary" id="uploadFile" accept="image/*"></input>
                     <button type="button" class="btn btn-primary" onclick="upload()">upload</button>
+                    <button type="button" class="btn btn-primary" onclick="upload(true)">upload & add</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </form>
@@ -120,7 +191,7 @@
             </div>
             <div id="resToEditBody" class="modal-body">
 
-                <table class="table">
+                <#--<table class="table">
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -149,15 +220,8 @@
                         <td>@twitter</td>
                     </tr>
                     </tbody>
-                </table>
+                </table>-->
             </div>
-            <#--<form id="infoLogoForm" enctype='multipart/form-data'>
-                <div class="modal-footer">
-                    <input type="file" class="btn btn-primary" id="uploadFile" accept="image/*"></input>
-                    <button type="button" class="btn btn-primary" onclick="upload()">upload</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </form>-->
         </div>
     </div>
 </div>

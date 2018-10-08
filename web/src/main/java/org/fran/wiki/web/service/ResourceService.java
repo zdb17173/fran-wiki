@@ -90,7 +90,7 @@ public class ResourceService {
 //                    System.out.println(resource.getName() + new Date(resource.lastModified()));
                     files.add(resource);
 
-                    l.add(new ResourceFile(resource.lastModified(), resource.getName(), "/res/r/" + date + "/" + resource.getName()));
+                    l.add(new ResourceFile(resource.lastModified(), resource.getName(), requestPath(date ,resource.getName())  ));
                 }
             }
 
@@ -150,9 +150,12 @@ public class ResourceService {
         }
     }
 
+    private String requestPath(String date, String fileName){
+        return "/res/r/" + date + "/" + fileName;
+    }
 
     //写入到本地文件（资源上传）
-    public void uploadToResource(String newFileName, String originalFilename, InputStream inputStream){
+    public String uploadToResource(String newFileName, String originalFilename, InputStream inputStream){
         FileOutputStream o = null;
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -164,6 +167,8 @@ public class ResourceService {
 
             String fileName = newFileName == null? originalFilename : (newFileName + getSuffix(originalFilename));
 
+            String requestPath = requestPath(curDate, fileName);
+
             File f = new File(dateFolder.getPath() + File.separator + fileName);
             if(f.exists())
                 throw new IOException("file exists, rename");
@@ -174,6 +179,7 @@ public class ResourceService {
                 o.write(b);
             }
 
+            return requestPath;
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -190,5 +196,7 @@ public class ResourceService {
                 e.printStackTrace();
             }
         }
+
+        return null;
     }
 }
