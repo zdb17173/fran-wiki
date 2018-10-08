@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api")
@@ -22,6 +23,14 @@ public class ApiController {
 
         JsonResult<String> res = new JsonResult<>();
         res.setDescription("sahdjhsajdhjsahdjsajdjh");
+        res.setStatus(200);
+        return res;
+    }
+
+    @GetMapping(value = "/share", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.ALL_VALUE)
+    public JsonResult<String> getShareUrl(@RequestParam String key){
+        JsonResult<String> res = new JsonResult<>();
+        res.setData(new String(Base64.getEncoder().encode(key.getBytes())));
         res.setStatus(200);
         return res;
     }

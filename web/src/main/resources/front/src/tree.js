@@ -30,6 +30,7 @@ hljs.registerLanguage('java', java);
 hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('python', python);
 
+
 var rootPath = '';
 $(function(){
 
@@ -127,6 +128,10 @@ $(function(){
                     }
                 }
             });
+
+
+            var activeKeyTemplate = $("#activeKeyTemplate").val();
+            activeKey(activeKeyTemplate);
         }
     });
 
@@ -261,8 +266,12 @@ function showMarkdown(){
             url: "/api/getFile?path=" + encodeURI(node.key),
             dataType: "json",
             success: function (data) {
-                var marked = data.data;
-                updateMDView(marked);
+                if(data.status == 200){
+                    var marked = data.data;
+                    updateMDView(marked);
+                }else{
+                    alertModal("load markdown fail",  data.description, 10000);
+                }
             }
         });
     }
@@ -282,8 +291,10 @@ function fileDelete(key, node){
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            if(data.status == 200)
+            if(data.status == 200){
                 node.remove();
+            }
+            alertModal("删除失败",  data.description, 10000);
         }
     });
 }
@@ -370,6 +381,8 @@ function saveHotKey(){
     }
 }
 
+
+
 //webpack 在js文件要引用的函数中将其作用域提升，在函数前添加window.,否则前端html中无法找到该函数
 //展开所有树节点
 window.expandAll = function expandAll() {
@@ -381,6 +394,29 @@ window.collapseAll = function collapseAll(){
 }
 
 window.activeKey = function activeKey(id){
-    $("#tree").fancytree("getTree").activateKey("id4.3.2");
+    if(!id || id == "")
+        return;
+    else
+        $("#tree").fancytree("getTree").activateKey(id);
 }
+
+//获取base64编码过的key，用于分享后的激活
+window.share = function(){
+    var node = $("#tree").fancytree("getActiveNode");
+    if(node){
+        var k = node.key;
+        $.ajax({
+            type: "GET",
+            url: "/api/share?key=" + encodeURI(k),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                // alert(data.data);
+                var url = window.location.href.substring(0,window.location.href.indexOf("/p/home") + 7);
+                alertModal("粘贴以下链接",  url + "?key=" + data.data, 10000);
+            }
+        });
+    }
+}
+
 

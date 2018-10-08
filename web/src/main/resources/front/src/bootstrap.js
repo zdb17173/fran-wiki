@@ -20,6 +20,18 @@ $(function () {
         trigger: "hover"
     });
 
+    $('#editViewSwitch').popover({
+        content: "切换编辑 & 预览视图",
+        trigger: "hover",
+        placement: "bottom"
+    });
+
+    $("#shareUrl").popover({
+        content: "获取当前页分享地址",
+        trigger: "hover",
+        placement: "bottom"
+    });
+
     /*$('#nav-fileupload').popover({
         content: "上传图片，用于后续添加在markdown编辑器中",
         trigger: "hover",
@@ -182,10 +194,35 @@ window.latest30Folder = function(callback) {
     });
 }
 
+window.alertModal = function(title, content, timeout){
+    $("#alertModalTitle").html(title);
+    $("#alertModalBody").html("<p class=\"mb-0\">"+ content +"</p>");
+    $("#alertModal").modal('show');
+    setTimeout(function () {
+        $("#alertModalBody").html("");
+        $("#alertModal").modal('hide');
+    }, timeout);
+
+}
+
 //显示资源添加到编辑器modal，并加载显示当天资源文件夹
 window.resAddToEditor = function() {
 
     getResources(null, function () {
         $("#resAddToEditorModal").modal('show');
     });
+}
+
+window.editModel = function () {
+    $('#viewerContent').removeClass("viewer-fullscreen");
+    $('#editorContent').removeClass("editor-hidden");
+    $('#editorContent').addClass("editor");
+    $('#viewerContent').addClass("viewer");
+}
+
+window.viewModel = function () {
+    $('#viewerContent').addClass("viewer-fullscreen");
+    $('#editorContent').addClass("editor-hidden");
+    $('#editorContent').removeClass("editor");
+    $('#viewerContent').removeClass("viewer");
 }

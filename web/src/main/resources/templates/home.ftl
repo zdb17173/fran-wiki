@@ -51,9 +51,6 @@
             -moz-border-radius: 6px;
             -webkit-border-radius: 6px;
             border-radius: 6px;
-            /*-webkit-box-shadow: 0 1px 1px #ccc;
-            -moz-box-shadow: 0 1px 1px #ccc;
-            box-shadow: 0 1px 1px #ccc;   */
         }
         #content table tr:hover {
             background: #fbf8e9;
@@ -109,11 +106,48 @@
             border-radius: 0 0 6px 0;
         }
 
+        .editor {
+            height: 100%;
+            float: left;
+            width: 700px;
+            padding: 5px;
+        }
+        .editor-hidden {
+            display: none;
+            width: 0px;
+        }
+
+        .viewer {
+            margin-left: 700px;
+            height: 95%;
+            padding: 5px;
+        }
+        .viewer-fullscreen {
+            height: 95%;
+            padding: 5px;
+        }
 
     </style>
 </head>
 
+<script>
+    var edit = false;
+    function editViewSwitch(){
+        if(edit){
+            viewModel();
+            edit = false;
+            document.getElementById("editViewSwitch").innerHTML = "edit";
+        }else{
+            editModel();
+            edit = true;
+            document.getElementById("editViewSwitch").innerHTML = "view";
+        }
+    }
+</script>
+
 <body>
+
+<input type="hidden" id="activeKeyTemplate" value="${activeKey!}"/>
 
 <header>
     <div class="navbar navbar-dark bg-dark box-shadow" style="height: 30px">
@@ -130,6 +164,12 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="javascript:expandAll()">expandAll</a>
             </li>
+            <li class="nav-item">
+                <a id="editViewSwitch" class="nav-link" href="#" onclick="javascript:editViewSwitch()">edit</a>
+            </li>
+            <li class="nav-item">
+                <a id="share" class="nav-link" href="#" onclick="javascript:share()">share</a>
+            </li>
         </ul>
     </div>
 </header>
@@ -138,16 +178,16 @@
     <div id="treeContent">
         <div id="tree"></div>
     </div>
-    <div style="height: 100%;float: left;width: 700px;padding: 5px;">
+    <div class="editor-hidden" id="editorContent">
         <textarea id="text-input" style="height: 95%;float: left;width: 670px;overflow:auto;"></textarea>
         <button onclick="javascript:saveMarkdown()">save</button>
     </div>
 
-    <div style="margin-left: 700px;height: 95%;padding: 5px;">
+    <div class="viewer-fullscreen" id="viewerContent">
         <div id="content" style="height: 100%;border: 1px solid darkgray;overflow:auto;">
         </div>
     </div>
-    <span id="echoActive1" />
+    <span id="echoActive1" style="display: none"/>
 </div>
 
 <!-- file upload modal -->
@@ -174,6 +214,26 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- alert modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alertModalTitle">select resource</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="alertModalBody" class="modal-body" style="word-break: break-all;width: 100%;">
+                <div class="alert alert-success" role="alert" >
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
