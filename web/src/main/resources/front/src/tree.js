@@ -30,7 +30,7 @@ hljs.registerLanguage('java', java);
 hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('python', python);
 
-
+var fileSeparator = null;
 var rootPath = '';
 $(function(){
 
@@ -42,6 +42,9 @@ $(function(){
         dataType: "json",
         success: function(data){
             var treeData = data.data.children;
+
+            fileSeparator = data.data.key.substring(0,1) == "/"? "/" : "\\";
+
             rootPath = data.data.key;
             $("#tree").fancytree({
                 extensions: ["edit"],
@@ -77,7 +80,7 @@ $(function(){
 
                         fileOperate(false, data.node.folder, orgTitle, key, nval);
 
-                        data.node.key = key.replace("\\"+ orgTitle , "\\" + nval);
+                        data.node.key = key.replace(fileSeparator+ orgTitle , fileSeparator + nval);
                         data.node.setTitle(nval);
 
                         if(data.node.folder)
@@ -194,20 +197,20 @@ function addChild(folder){
             var name = fileNameRepetition(node, "newfolder", 0);
 
             node.addChildren({
-                key: node.key + "\\" + name,
+                key: node.key + fileSeparator + name,
                 title: name,
                 folder: true
             });
-            fileOperate(true, true, name, node.key + "\\" + name, null);
+            fileOperate(true, true, name, node.key + fileSeparator + name, null);
         }else{
             var name = fileNameRepetition(node, "newfile", 0);
 
             node.addChildren({
-                key: node.key + "\\" + name,
+                key: node.key + fileSeparator + name,
                 title: name,
                 folder: false
             });
-            fileOperate(true, false, name, node.key + "\\" + name, null);
+            fileOperate(true, false, name, node.key + fileSeparator + name, null);
         }
     }
 }
@@ -247,12 +250,12 @@ function updateKey(node, key, newKey){
 function addRootNode(){
     var rootNode = $("#tree").fancytree("getRootNode");
     var childNode = rootNode.addChildren({
-        key: rootPath + "\\newfolder",
+        key: rootPath + fileSeparator + "newfolder",
         title: "newfolder",
         folder: true
     });
 
-    fileOperate(true, true, "newfolder", rootPath + "\\newfolder", null);
+    fileOperate(true, true, "newfolder", rootPath + fileSeparator + "newfolder", null);
 }
 
 //加载markdown
@@ -293,8 +296,8 @@ function fileDelete(key, node){
         success: function (data) {
             if(data.status == 200){
                 node.remove();
-            }
-            alertModal("删除失败",  data.description, 10000);
+            }else
+                alertModal("删除失败",  data.description, 10000);
         }
     });
 }

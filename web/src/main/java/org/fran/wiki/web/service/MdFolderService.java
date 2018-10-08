@@ -86,6 +86,7 @@ public class MdFolderService {
 
     public void delete(String path, boolean isFolder){
         File f = new File(path + (isFolder ? "" : ".md") );
+
         if(!f.exists())
             return;
         else{
