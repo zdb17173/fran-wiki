@@ -114,8 +114,14 @@ public class MdFolderService {
                 t.setFolder(true);
                 if(file.listFiles()!= null && file.listFiles().length > 0)
                     for(File child : file.listFiles()) {
-                        buildTree(child, t);
+                        if(child.isDirectory())
+                            buildTree(child, t);
                     }
+                for(File child : file.listFiles()) {
+                    if(!child.isDirectory())
+                        buildTree(child, t);
+                }
+
                 t.setTitle(file.getName());
                 t.setKey(file.getPath());
                 parent.addChild(t);
