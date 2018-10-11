@@ -30,7 +30,7 @@ public class ApiController {
     @GetMapping(value = "/share", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.ALL_VALUE)
     public JsonResult<String> getShareUrl(@RequestParam String key){
         JsonResult<String> res = new JsonResult<>();
-        res.setData(new String(Base64.getEncoder().encode(key.getBytes())));
+        res.setData(new String(Base64.getUrlEncoder().encode(key.getBytes())));
         res.setStatus(200);
         return res;
     }

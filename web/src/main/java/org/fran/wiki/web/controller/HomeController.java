@@ -26,7 +26,7 @@ public class HomeController {
         Map<String, Object> map = new HashMap<>();
 
         if(key!= null && !"".equals(key)){
-            String activeKey = new String(Base64.getDecoder().decode(key.getBytes()));
+            String activeKey = new String(Base64.getUrlDecoder().decode(key.getBytes()));
             map.put("activeKey", activeKey);
         }
 
