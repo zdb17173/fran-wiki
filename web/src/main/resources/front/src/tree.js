@@ -34,8 +34,6 @@ var fileSeparator = null;
 var rootPath = '';
 $(function(){
 
-    document.onkeydown = saveHotKey;
-
     $.ajax({
         type: "GET",
         url: "/api/getAll",
@@ -373,15 +371,6 @@ window.saveMarkdown = function saveMarkdown(){
             updateMDView(md);
         }
     });
-}
-
-//ctrl+s 保存编辑器内容，禁用chrome保存热键
-function saveHotKey(){
-    var a = window.event.keyCode;
-    if( a == 83&& event.ctrlKey ) {
-        saveMarkdown();
-        event.returnValue = false;//禁用chrome保存热键
-    }
 }
 
 

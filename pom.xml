@@ -38,6 +38,7 @@
 
     <modules>
         <module>web</module>
+        <module>search</module>
     </modules>
 
     <dependencyManagement>

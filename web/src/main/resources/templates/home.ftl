@@ -11,6 +11,7 @@
     <script src="/commons.bundle.js"></script>
     <script src="/bootstrap.bundle.js"></script>
     <script src="/tree.bundle.js"></script>
+    <script src="/editor.bundle.js"></script>
 
     <style type="text/css">
         html,body{
@@ -84,7 +85,7 @@
 <input type="hidden" id="activeKeyTemplate" value="${activeKey!}"/>
 
 <header>
-    <div class="navbar navbar-dark bg-dark box-shadow" style="height: 30px">
+    <div class="navbar navbar-dark bg-dark box-shadow">
         <ul class="nav">
             <li class="nav-item">
                 <a id="nav-fileupload" class="nav-link" href="#" data-toggle="modal" data-target="#fileUploadModal">upload</a>

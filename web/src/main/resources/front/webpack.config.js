@@ -4,7 +4,8 @@ const webpack = require('webpack');
 module.exports = {
     entry: {
         "tree": "./src/tree.js",
-        "bootstrap": "./src/bootstrap.js"
+        "bootstrap": "./src/bootstrap.js",
+        "editor": "./src/editor.js"
     },
     output: {
         filename: '[name].bundle.js',

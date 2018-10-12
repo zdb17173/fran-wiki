@@ -150,7 +150,10 @@ window.getResources = function(date, callback) {
 window.addSelectedToEditor = function(path) {
     // alert(path);
     var img = "![pic]("+ path +")"
-    var tc = document.getElementById("text-input");
+
+    appendToEditorCursor(img);
+
+    /*var tc = document.getElementById("text-input");
     var tclen = tc.value.length;
     tc.focus();
     if(typeof document.selection != "undefined")
@@ -159,7 +162,7 @@ window.addSelectedToEditor = function(path) {
     }else{
         tc.value = tc.value.substr(0,tc.selectionStart) + img + tc.value.substring(tc.selectionStart,tclen);
     }
-    $("#resAddToEditorModal").modal('hide');
+    $("#resAddToEditorModal").modal('hide');*/
 }
 
 //timestamp日期格式化
