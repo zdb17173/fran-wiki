@@ -224,4 +224,7 @@
 
 </body>
 
+
+<script src="/imagePaste.bundle.js"></script>
+
 </html>
