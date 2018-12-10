@@ -9,8 +9,6 @@
 - 文档管理
   - 目录增删改（左侧树右键菜单）
   - markdown增删改（左侧树右键菜单）
-- 
-
 
 ## config
 修改配置fran-wiki\web\src\main\resources\application.yaml
