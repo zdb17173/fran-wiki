@@ -10,6 +10,13 @@
   - 目录增删改（左侧树右键菜单）
   - markdown增删改（左侧树右键菜单）
 
+施工中
+- markdown自动索引，增加搜索功能
+- 登陆权限控制
+- 编写markdown优化
+  - 多选内容tab缩进
+  - ctrl+z回退等
+
 ## config
 修改配置fran-wiki\web\src\main\resources\application.yaml
 ```yaml
@@ -22,8 +29,6 @@ res:
 server:
   port: 8080
 ```
-
-
 
 ## build
 
