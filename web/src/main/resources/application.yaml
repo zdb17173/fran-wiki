@@ -9,6 +9,33 @@ server:
   tomcat:
     basedir: "/data/apps/temp"
 
+auth:
+  enable: true
+  accessConfig:
+    - path: "/css/**"
+      permitAll: true
+    - path: "/api/save"
+      permitAll: false
+      roles:
+        - "editor"
+    - path: "/api/file"
+      permitAll: false
+      roles:
+        - "editor"
+    - path: "/mapi/**"
+      permitAll: true
+
+  users:
+    - name: admin
+      password: admin
+      roles:
+        - "editor"
+    - name: guest
+      password: guest
+      roles:
+        - "guest"
+
+
 spring:
   http:
     multipart:

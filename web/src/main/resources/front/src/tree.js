@@ -136,35 +136,39 @@ $(function(){
         }
     });
 
-    $("#tree").contextmenu({
-        delegate: "span.fancytree-node",
-        menu: [
-            {title: "delete", cmd: "delete", uiIcon: "ui-icon-trash" },
-            {title: "----"},
-            {title: "new folder", cmd: "addFolder", uiIcon: "ui-icon-arrowreturn-1-e" },
-            {title: "new markdown", cmd: "addChild", uiIcon: "ui-icon-arrowreturn-1-e" },
-            {title: "new folder(root)", cmd: "addRootNode", uiIcon: "ui-icon-arrowreturn-1-e" }
-        ],
-        beforeOpen: function(event, ui) {
-            var node = $.ui.fancytree.getNode(ui.target);
-            $("#tree").contextmenu("enableEntry", "paste");
-            node.setActive();
-        },
-        select: function(event, ui) {
+    //顶级home.ftl获取isEditor字段，判断是否为编辑角色，如非编辑角色不启用右键菜单。
+    if(isEditor){
+        $("#tree").contextmenu({
+            delegate: "span.fancytree-node",
+            menu: [
+                {title: "delete", cmd: "delete", uiIcon: "ui-icon-trash" },
+                {title: "----"},
+                {title: "new folder", cmd: "addFolder", uiIcon: "ui-icon-arrowreturn-1-e" },
+                {title: "new markdown", cmd: "addChild", uiIcon: "ui-icon-arrowreturn-1-e" },
+                {title: "new folder(root)", cmd: "addRootNode", uiIcon: "ui-icon-arrowreturn-1-e" }
+            ],
+            beforeOpen: function(event, ui) {
+                var node = $.ui.fancytree.getNode(ui.target);
+                $("#tree").contextmenu("enableEntry", "paste");
+                node.setActive();
+            },
+            select: function(event, ui) {
 
-            if (!ui.cmd){
-                return;
-            }else if(ui.cmd == "addChild"){
-                addChild(false);
-            }else if(ui.cmd == "delete"){
-                deleteNode();
-            }else if(ui.cmd == "addRootNode"){
-                addRootNode();
-            }else if(ui.cmd == "addFolder"){
-                addChild(true);
+                if (!ui.cmd){
+                    return;
+                }else if(ui.cmd == "addChild"){
+                    addChild(false);
+                }else if(ui.cmd == "delete"){
+                    deleteNode();
+                }else if(ui.cmd == "addRootNode"){
+                    addRootNode();
+                }else if(ui.cmd == "addFolder"){
+                    addChild(true);
+                }
             }
-        }
-    });
+        });
+    }
+
 });
 
 //删除节点

@@ -1,4 +1,11 @@
 <!doctype html>
+
+<#assign editor=security.hasRole("ROLE_editor")>
+<script>
+    var isEditor = ${editor?string};
+</script>
+
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -78,6 +85,7 @@
             document.getElementById("editViewSwitch").innerHTML = "view";
         }
     }
+
 </script>
 
 <body>
@@ -99,12 +107,28 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="javascript:expandAll()">expandAll</a>
             </li>
+
+            <#if editor == true>
             <li class="nav-item">
                 <a id="editViewSwitch" class="nav-link" href="#" onclick="javascript:editViewSwitch()">edit</a>
             </li>
+            </#if>
+
             <li class="nav-item">
                 <a id="share" class="nav-link" href="#" onclick="javascript:share()">share</a>
             </li>
+
+            <#if editor == false>
+            <li class="nav-item">
+                <a id="login" class="nav-link" href="#" onclick="javascript:login()">login</a>
+            </li>
+            </#if>
+
+            <#if editor == true>
+            <li class="nav-item">
+                <a id="logout" class="nav-link" href="#" onclick="javascript:logout()">logout</a>
+            </li>
+            </#if>
         </ul>
     </div>
 </header>
@@ -174,6 +198,40 @@
 </div>
 
 
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form action="/login" method="post" id="loginForm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">user name</label>
+                        <input type="text" id="username" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">login user name.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="javascript:loginApi()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- add resource modal -->
 <div class="modal fade" id="resAddToEditorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -226,5 +284,7 @@
 
 
 <script src="/imagePaste.bundle.js"></script>
+<script src="/auth.bundle.js"></script>
+<script src="/test.bundle.js"></script>
 
 </html>

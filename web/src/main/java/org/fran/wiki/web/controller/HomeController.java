@@ -1,6 +1,7 @@
 package org.fran.wiki.web.controller;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.fran.wiki.web.security.FreemarkerUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ public class HomeController {
             String activeKey = new String(Base64.getUrlDecoder().decode(key.getBytes()));
             map.put("activeKey", activeKey);
         }
-
+        map.put("security", new FreemarkerUtil());
         return new ModelAndView("/" + template, map);
     }
 

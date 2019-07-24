@@ -7,7 +7,8 @@ module.exports = {
         "bootstrap": "./src/bootstrap.js",
         "editor": "./src/editor.js",
         "imagePaste": "./src/imagePaste.js",
-        "test": "./src/test.js"
+        "test": "./src/test.js",
+        "auth": "./src/auth.js"
     },
     output: {
         filename: '[name].bundle.js',
