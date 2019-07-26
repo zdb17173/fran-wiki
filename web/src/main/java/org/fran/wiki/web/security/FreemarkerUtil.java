@@ -12,6 +12,8 @@ import java.util.Collection;
  */
 public class FreemarkerUtil {
 
+    protected static boolean needCheck = true;
+
     public AccessUserService.CustomUser getUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication.getPrincipal() instanceof AccessUserService.CustomUser) {
@@ -26,6 +28,10 @@ public class FreemarkerUtil {
         if(role == null || "".equals(role))
             return false;
         else{
+            if(!needCheck){
+                return true;
+            }
+
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if(authentication.getPrincipal() instanceof UserDetails){
                 UserDetails user = (UserDetails)authentication.getPrincipal();

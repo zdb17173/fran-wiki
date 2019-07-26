@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         List<SecurityRoleConfig.SecurityRoleConfigVo> configs = securityRoleConfig.getAccessConfig();
         if(configs == null || !securityRoleConfig.isEnable()){
+            FreemarkerUtil.needCheck = false;
             http.csrf().disable();
         }else {
             ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry author = http.authorizeRequests();

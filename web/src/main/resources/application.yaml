@@ -22,8 +22,6 @@ auth:
       permitAll: false
       roles:
         - "editor"
-    - path: "/mapi/**"
-      permitAll: true
 
   users:
     - name: admin

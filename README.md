@@ -33,9 +33,15 @@
 ![pic](doc/preview4.png)
   - 资源文件：所有上传的图片资源，在配置文件的资源目录下保存，每天的资源按文件夹保存
 
+
+- 登陆认证功能2019-7-26
+  - 增加登陆功能，非登陆用户仅可阅览不可修改
+  - 增加认证开关，个人使用可关闭登陆减少操作
+  - 用户密码配置文件中进行设置
+![pic](doc/preview5.png)
+
 # 施工中
 - markdown自动索引，增加搜索功能
-- 登陆权限控制
 - 编写markdown优化
   - 多选内容tab缩进
   - ctrl+z回退等
@@ -51,6 +57,32 @@ res:
 #修改服务端口
 server:
   port: 8080
+  
+#认证管理配置，使用该功能可控制匿名账号
+auth:
+  #是否打开认证管理，开启认证则需要登陆才可以修改信息
+  enable: true
+  accessConfig:
+    - path: "/css/**"
+      permitAll: true
+    - path: "/api/save"
+      permitAll: false
+      roles:
+        - "editor"
+    - path: "/api/file"
+      permitAll: false
+      roles:
+        - "editor"
+  #用户名、密码设置
+  users:
+    - name: admin
+      password: admin
+      roles:
+        - "editor"
+    - name: guest
+      password: guest
+      roles:
+        - "guest"
 ```
 
 ## build
