@@ -21,6 +21,16 @@ document.addEventListener('paste', function (event) {
         //not for ie11  某些chrome版本使用的是event.originalEvent
         var clipboardData = (event.clipboardData || event.originalEvent.clipboardData);
         if ( clipboardData.items ) {
+
+            var hasFile = false;
+            for(var i = 0 ; i < clipboardData.types.length; i ++){
+                if(clipboardData.types[i] == "Files"){
+                    hasFile = true;
+                }
+            }
+            if(!hasFile)
+                return;
+
             // for chrome
             var  items = clipboardData.items,
                 len = items.length,
@@ -102,7 +112,7 @@ function uploadImgFromPaste (file, type, isChrome) {
 
     var fd = new FormData();
     fd.append('uploadFile', file);
-    fd.append('name', "dsadsa")
+    // fd.append('name', "dsadsa")
     fd.append('description','description')
 
     var editor=document.getElementById("aaa");

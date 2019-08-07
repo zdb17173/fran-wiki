@@ -1,7 +1,7 @@
 
 res:
   markdownPath: "C:\\dev\\markdown\\doc"
-  resourcePath: "C:\\dev\\markdown\\resources"
+  resourcePath: "C:\\dev\\markdown\\res\\r"
   tempPath: "C:\\dev\\markdown\\temp"
 
 server:
@@ -10,7 +10,7 @@ server:
     basedir: "/data/apps/temp"
 
 auth:
-  enable: true
+  enable: false
   accessConfig:
     - path: "/css/**"
       permitAll: true
