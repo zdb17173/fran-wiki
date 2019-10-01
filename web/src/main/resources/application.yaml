@@ -5,12 +5,12 @@ res:
   tempPath: "C:\\dev\\markdown\\temp"
 
 server:
-  port: 8080
+  port: 9393
   tomcat:
     basedir: "/data/apps/temp"
 
 auth:
-  enable: false
+  enable: true
   accessConfig:
     - path: "/css/**"
       permitAll: true

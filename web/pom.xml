@@ -58,11 +58,12 @@
         </dependency>
         <!-- spring swagger2 end -->
 
+        <!-- 非开发环境需要关闭
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <version>${org.springframework.boot.version}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
