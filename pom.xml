@@ -18,7 +18,7 @@
         <org.springframework.boot.version>1.5.2.RELEASE</org.springframework.boot.version>
         <org.mybatis.spring.boot.version>1.2.0</org.mybatis.spring.boot.version>
         -->
-        <com.fasterxml.jason.core.version>2.7.5</com.fasterxml.jason.core.version>
+        <com.fasterxml.jason.core.version>2.12.1</com.fasterxml.jason.core.version>
         <org.apache.httpcomponents.version>4.5</org.apache.httpcomponents.version>
 
         <org.slf4j.version>1.7.21</org.slf4j.version>
